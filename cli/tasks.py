@@ -10,8 +10,8 @@ def create_task(task_description):
 
 def completed_task(task_description):
     global tasks
-    task = list(filter(lambda  x: x.task_description == task_description, tasks))
-    task["status"] = "Completed"
+    task = list(filter(lambda  x: x["task_description"] == task_description, tasks))
+    task[0].set("status", "Completed")
 
 def list_tasks():
     for task in tasks:

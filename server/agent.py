@@ -65,25 +65,37 @@ conversation_history = []
 def perform_action(llm_message):
     if llm_message["intent"] == "add_task":
         create_task(llm_message["task_description"])
+        return llm_message["response_message"]
     elif llm_message["intent"] == "complete_task":
         completed_task(llm_message["task_description"])
+        return llm_message["task_description"] + "is completed"
     elif llm_message["intent"] == "list_tasks":
         list_tasks()
 
 
-def run_agent_loop():
+
+def chat_with_agent(user_message):
     conversation_history.append(context)
-    while True:
-        user_input = input("You:").strip()
-        if user_input == "quit":
-            break
-        elif not user_input:
-            continue
-        print(user_input)
-        conversation_history.append(({"role": "user", "content": user_input}))
-        result = call_llm_message(conversation_history)
-        perform_action(result)
-        print(result["response_message"])
-
-
-run_agent_loop()
+    conversation_history.append(({"role": "user", "content": user_message}))
+    result = call_llm_message(conversation_history)
+    action_result = perform_action(result)
+    conversation_history.append({"role":"assistant",  "content": action_result})
+    return result["response_message"]
+#
+# def run_agent_loop():
+#     conversation_history.append(context)
+#     while True:
+#         user_input = input("You:").strip()
+#         if user_input == "quit":
+#             break
+#         elif not user_input:
+#             continue
+#         print(user_input)
+#         conversation_history.append(({"role": "user", "content": user_input}))
+#         result = call_llm_message(conversation_history)
+#         action_result = perform_action(result)
+#         conversation_history.append({"role":"assistant",  "content": action_result})
+#         print(result["response_message"])
+#
+#
+# run_agent_loop()
