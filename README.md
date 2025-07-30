@@ -4,3 +4,6 @@ Parses natural language instructions into structured JSON to add, list, or compl
 Built with Python, supports real-time CLI interaction with extendable backend logic.
 
 Tech Stack: FastAPI, Streamlit, Ollama
+
+
+![alt text](./screenshot1.png)
